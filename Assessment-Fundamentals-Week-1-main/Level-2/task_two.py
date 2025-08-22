@@ -17,30 +17,38 @@ def add_to_basket(item: dict) -> list:
     return basket
 
 
+
+
 def generate_receipt(basket: list) -> str:
     if len(basket) == 0:
         return "Basket is empty"
-
+   
     lines_of_receipt = []
     total_cost = 0
 
-    # count how many times the first item appears in basket
-    first_basket_item = basket[0]
-    name = first_basket_item["name"]
-    price = first_basket_item["price"]
-    quantity = 0
-
+    # this dictionary builds a count of items
+    counts_of_items = {}
     for item in basket:
-        if item["name"] == name and item["price"] == price:
-            quantity = quantity + 1
-            total_cost = total_cost + price
+        name = item["name"]
+        price = item["price"]
+        # tuple below will let us handle each item and its different prices as seperate items
+        key = (name, price) 
+        if key in counts_of_items:
+            counts_of_items[key] += 1
+        else:
+            counts_of_items[key] = 1
 
-    line_total = price * quantity
-    line = name + " x " + str(quantity) + " - £" + format(line_total, ".2f")
-    lines_of_receipt.append(line)
+    # now we can create each receipt lines from counts_of_items
+    for (name, price), quantity in counts_of_items.items():
+        line_total = price * quantity
+        line = name + " x " + str(quantity) + " - £" + format(line_total, ".2f")
+        lines_of_receipt.append(line)
+        total_cost += line_total
 
+    # now add in the total price right at the end of the list
     lines_of_receipt.append("Total: £" + format(total_cost, ".2f"))
     return "\n".join(lines_of_receipt)
+
 
 #####
 #
