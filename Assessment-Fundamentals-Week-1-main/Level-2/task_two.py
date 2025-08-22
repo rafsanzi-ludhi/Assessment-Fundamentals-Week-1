@@ -30,7 +30,7 @@ def generate_receipt(basket: list) -> str:
         name = item["name"]
         price = item["price"]
         total_cost = total_cost + price
-        line = name + " - £" + format(price, ".2f")
+        line = name + " x 1 - £" + format(price, ".2f")
         lines_of_receipt.append(line)
 
     lines_of_receipt.append("Total: £" + format(total_cost, ".2f"))
