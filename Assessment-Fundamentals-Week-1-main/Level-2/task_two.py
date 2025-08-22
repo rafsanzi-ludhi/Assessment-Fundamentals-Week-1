@@ -17,25 +17,30 @@ def add_to_basket(item: dict) -> list:
     return basket
 
 
-
-
 def generate_receipt(basket: list) -> str:
     if len(basket) == 0:
         return "Basket is empty"
-   
+
     lines_of_receipt = []
     total_cost = 0
 
+    # count how many times the first item appears in basket
+    first_basket_item = basket[0]
+    name = first_basket_item["name"]
+    price = first_basket_item["price"]
+    quantity = 0
+
     for item in basket:
-        name = item["name"]
-        price = item["price"]
-        total_cost = total_cost + price
-        line = name + " x 1 - £" + format(price, ".2f")
-        lines_of_receipt.append(line)
+        if item["name"] == name and item["price"] == price:
+            quantity = quantity + 1
+            total_cost = total_cost + price
+
+    line_total = price * quantity
+    line = name + " x " + str(quantity) + " - £" + format(line_total, ".2f")
+    lines_of_receipt.append(line)
 
     lines_of_receipt.append("Total: £" + format(total_cost, ".2f"))
     return "\n".join(lines_of_receipt)
-
 
 #####
 #
