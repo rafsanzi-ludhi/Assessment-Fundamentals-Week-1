@@ -13,12 +13,29 @@ basket = []
 
 
 def add_to_basket(item: dict) -> list:
-    pass
+    basket.append(item)
+    return basket
+
 
 
 
 def generate_receipt(basket: list) -> str:
-    pass
+    if len(basket) == 0:
+        return "Basket is empty"
+   
+    lines_of_receipt = []
+    total_cost = 0
+
+    for item in basket:
+        name = item["name"]
+        price = item["price"]
+        total_cost = total_cost + price
+        line = name + " - £" + format(price, ".2f")
+        lines_of_receipt.append(line)
+
+    lines_of_receipt.append("Total: £" + format(total_cost, ".2f"))
+    return "\n".join(lines_of_receipt)
+
 
 #####
 #
